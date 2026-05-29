@@ -1,5 +1,14 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+// ここを修正：Renderが指定するポートを優先する
+const port = process.env.PORT || 8080; 
+const wss = new WebSocket.Server({ port: port });
+
+wss.on('connection', (ws) => {
+    console.log('誰かが接続しました！'); // これでログに出るはず
+    ws.on('message', (message) => {
+        console.log('受信:', message.toString()); // これでログに出るはず
+    });
+});
 
 let players = new Map(); // プレイヤー情報
 let currentCourse = "default"; // 現在のコース
