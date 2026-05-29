@@ -16,4 +16,3 @@ ws.on('message', (data) => {
         console.log('JSON形式じゃないデータが来たよ');
     }
 });
-);
