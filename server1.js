@@ -1,13 +1,17 @@
 const WebSocket = require('ws');
-// ここを修正：Renderが指定するポートを優先する
-const port = process.env.PORT || 8080; 
+
+// ここが魔法のコードです！
+// "process.env.PORT" はRenderが決めた番号、それがなければ "10000" を使え、という意味です
+const port = process.env.PORT || 10000;
+
 const wss = new WebSocket.Server({ port: port });
 
+wss.on('listening', () => {
+    console.log('サーバーが起動しました！ポート:' + port);
+});
+
 wss.on('connection', (ws) => {
-    console.log('誰かが接続しました！'); // これでログに出るはず
-    ws.on('message', (message) => {
-        console.log('受信:', message.toString()); // これでログに出るはず
-    });
+    console.log('誰かが接続しました！');
 });
 
 let players = new Map(); // プレイヤー情報
