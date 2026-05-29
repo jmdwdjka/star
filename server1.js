@@ -9,7 +9,15 @@ const wss = new WebSocket.Server({ port: port });
 wss.on('listening', () => {
     console.log('サーバーが起動しました！ポート:' + port);
 });
-
+wss.on('connection', (ws) => {
+    console.log('クライアントが接続しました！');
+    
+    // ここがメッセージを受け取る心臓部です
+    ws.on('message', (message) => {
+        // メッセージを「文字」に変換して確実に表示する
+        console.log('受信した生データ:', message.toString());
+    });
+});
 wss.on('connection', (ws) => {
     console.log('誰かが接続しました！');
 });
